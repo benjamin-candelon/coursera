@@ -1,18 +1,22 @@
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+import pandas as pd
 import numpy as np
-from scipy import stats
-a = np.array([1,2,3])
-print(type(a))
-# print(a.shape)
-# print(a[0],a[1],a[2])
-b = np.array([[1,2],[3,4]])
-# print(b)
-# print(b.shape)
-c = np.zeros((3,2))
-# print(c)
-e = np.full((3,3),9)
-# print(e)
-h = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])
-# print(h)
-rvs = stats.norm.rvs(size = 100)
-# print(rvs)
-a = np.array([1,12,30,45,52,80])
+
+da = pd.read_csv("Nhanes.csv")
+
+# Print out the first few rows of the data
+# print(da.BPXSY1.head())
+# print(da.DMDEDUC2.value_counts())
+da["DMDEDUC2x"] = da.DMDEDUC2x.fillna("Missing")
+# print(da.DMDEDUC2x.value_counts())
+da["RIAGENDRx"] = da.RIAGENDR.replace({1: "Male", 2: "Female"})
+x = da.DMDEDUC2x.value_counts()  # x is just a name to hold this value temporarily
+
+# print(x.median())
+# print(x.quantile(0.5))
+
+a = ((da.BPXSY1 >= 120) & (da.BPXSY2 <= 139))
+b = ((da.BPXDI1 >= 80) & (da.BPXDI1 <= 86))
+print(np.mean(a | b))
+print("Finished")
