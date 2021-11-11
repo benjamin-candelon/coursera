@@ -1,23 +1,24 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-import numpy as np
+# import numpy as np
+import scipy.stats as stats
 
-da = pd.read_csv("Nhanes.csv")
-
-# Print out the first few rows of the data
-print(da.head())
-
-# print(da.DMDEDUC2.value_counts())
-da["DMDEDUC2x"] = da.DMDEDUC2.fillna("Missing")
-# print(da.DMDEDUC2x.value_counts())
-da["RIAGENDRx"] = da.RIAGENDR.replace({1: "Male", 2: "Female"})
-# x = da.DMDEDUC2x.value_counts()  # x is just a name to hold this value temporarily
-
-# print(x.median())
-# print(x.quantile(0.5))
-
-a = ((da.BPXSY1 >= 120) & (da.BPXSY2 <= 139))
-b = ((da.BPXDI1 >= 80) & (da.BPXDI1 <= 86))
-print(np.mean(a | b))
+pd.set_option('display.max_columns', 100)
+path = "./Nhanes.csv"
+df = pd.read_csv(path)
+# print(df.head())
+bp = df['BPXSY2']
+bp = bp.dropna()
+# print("Mean:", bp.mean())
+# print("Median:", bp.median())
+# print("Max:", bp.max())
+# print("Min:", bp.min())
+# print("Standard deviation:", bp.std())
+# print("Variance:", bp.var())
+# print(bp.diff().values)
+bp_iqr = stats.iqr(bp)
+print(bp)
+sns.boxplot(data = bp).set(title="Titel")
+plt.show()
 print("Finished")
